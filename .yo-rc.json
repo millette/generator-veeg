@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Robin Millette",
+      "authorEmail": "robin@millette.info",
+      "authorUrl": "http://robin.millette.info/"
+    }
+  }
+}
