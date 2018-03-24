@@ -5,20 +5,44 @@ const yosay = require('yosay');
 
 module.exports = class extends Generator {
   prompting() {
-    // Have Yeoman greet the user.
     this.log(yosay(`Welcome to the wicked ${chalk.red('generator-veeg')} generator!`));
-
+    const choices = ['vega-lite', 'vega-tooltip'];
     const prompts = [
       {
+        type: 'checkbox',
+        name: 'vegaAddons',
+        message: 'Which addons do you wish to use on top of vega?',
+        choices,
+        default: choices,
+        store: true
+      },
+      {
         type: 'confirm',
-        name: 'someAnswer',
-        message: 'Would you like to enable this option?',
-        default: true
+        name: 'preferYarn',
+        message: 'Prefer yarn over npm?',
+        default: true,
+        store: true
+      },
+      {
+        type: 'list',
+        name: 'cdn',
+        message: 'Use which CDN?',
+        choices: ['jsdelivr', 'unpkg'],
+        default: 'jsdelivr',
+        store: true
+      },
+      {
+        type: 'list',
+        name: 'hash',
+        message: 'Use which hash function for sub-resource integrity (SRI)?',
+        choices: ['sha256', 'sha384', 'sha512'],
+        default: 'sha512',
+        store: true
       }
     ];
 
     return this.prompt(prompts).then(props => {
-      // To access props later use this.props.someAnswer;
+      this.resources = ['vega', ...props.vegaAddons, 'vega-embed'];
       this.props = props;
     });
   }
@@ -31,6 +55,15 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.installDependencies();
+    this.installDependencies({
+      npm: !this.props.preferYarn,
+      yarn: this.props.preferYarn,
+      bower: false
+    });
+  }
+
+  end() {
+    this.log('PROPS:', JSON.stringify(this.props));
+    this.log('RES:', this.resources);
   }
 };
