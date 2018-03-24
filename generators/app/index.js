@@ -2,6 +2,8 @@
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
+// Const { srilinka, supportedTypes, supportedCdns } = require('srilinka');
+const { supportedCdns } = require('srilinka');
 
 module.exports = class extends Generator {
   prompting() {
@@ -27,7 +29,7 @@ module.exports = class extends Generator {
         type: 'list',
         name: 'cdn',
         message: 'Use which CDN?',
-        choices: ['jsdelivr', 'unpkg'],
+        choices: supportedCdns,
         default: 'jsdelivr',
         store: true
       },
@@ -48,9 +50,12 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
+      this.destinationPath('dummyfile.txt'),
+      {
+        fe: '<p>fo</p>'
+      }
     );
   }
 
