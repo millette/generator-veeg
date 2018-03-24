@@ -11,6 +11,7 @@ describe('generator-veeg:app', () => {
   });
 
   it('creates files', () => {
-    assert.file(['dummyfile.txt']);
+    console.log('#4');
+    assert.file(['package.json']);
   });
 });
