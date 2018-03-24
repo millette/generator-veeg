@@ -77,19 +77,28 @@ module.exports = class extends Generator {
       {
         name: 'author',
         message: "What's your name:",
-        default: this.options.author || this.pkg.author.name || this.gitc.user.name,
+        default:
+          this.options.author ||
+          (this.pkg.author && this.pkg.author.name) ||
+          this.gitc.user.name,
         when: !this.options.author
       },
       {
         name: 'email',
         message: "What's your email:",
-        default: this.options.email || this.pkg.author.email || this.gitc.user.email,
+        default:
+          this.options.email ||
+          (this.pkg.author && this.pkg.author.email) ||
+          this.gitc.user.email,
         when: !this.options.email
       },
       {
         name: 'website',
         message: "What's your website:",
-        default: this.options.website || this.pkg.author.url || this.gitc.user.url,
+        default:
+          this.options.website ||
+          (this.pkg.author && this.pkg.author.url) ||
+          this.gitc.user.url,
         when: !this.options.website
       },
       {
