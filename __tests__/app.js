@@ -11,7 +11,6 @@ describe('generator-veeg:app', () => {
   });
 
   it('creates files', () => {
-    console.log('#4');
-    assert.file(['package.json']);
+    assert.file(['package.json', 'bs-config.js']);
   });
 });
