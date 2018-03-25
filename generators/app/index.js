@@ -147,7 +147,7 @@ module.exports = class extends Generator {
 
       this.composeWith('generator-license', {
         name: this.props.author,
-        email: this.props.email,
+        email: this.props.email || ' ',
         website: this.props.website || ' ',
         defaultLicense: 'AGPL-3.0'
       });
