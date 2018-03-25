@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "generator-license": "^5.2.0",
+    "generator-license": "millette/generator-license#trim",
     "git-config": "^0.0.7",
     "github-username": "^4.1.0",
     "srilinka": "^0.0.1",
