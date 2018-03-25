@@ -17,7 +17,6 @@ module.exports = class extends Generator {
     super(args, opts);
 
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-    // This.log('PKG', JSON.stringify(this.pkg))
 
     this.props = {
       name: this.options.name || this.pkg.name || basename(process.cwd())
@@ -55,7 +54,6 @@ module.exports = class extends Generator {
   initializing() {
     this.gitc = gitConfig.sync();
     this.gitc.user = this.gitc.user || {};
-    // This.log(JSON.stringify(this.gitc))
     if (this.gitc.user.email) {
       return ghUsername(this.gitc.user.email).then(x => {
         this.ghUsername = x;
@@ -155,7 +153,6 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    this.log('ghUsername', this.ghUsername);
     const pkgTpl = this.fs.readJSON(this.templatePath('package.json'));
     const pkg = {
       ...pkgTpl,
@@ -171,12 +168,8 @@ module.exports = class extends Generator {
     if (this.ghUsername && this.props.name) {
       pkg.repository = [this.ghUsername, this.props.name].join('/');
     }
-    this.log('pkg222:', JSON.stringify(pkg));
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
-    this.fs.copyTpl(
-      this.templatePath('bs-config.js'),
-      this.destinationPath('bs-config.js')
-    );
+    this.fs.copy(this.templatePath('bs-config.js'), this.destinationPath('bs-config.js'));
   }
 
   install() {
@@ -189,6 +182,5 @@ module.exports = class extends Generator {
 
   end() {
     this.log("We're all good!");
-    this.log('PROPS:', JSON.stringify(this.props));
   }
 };
