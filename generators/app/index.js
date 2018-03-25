@@ -1,26 +1,17 @@
 'use strict';
 
-// Core
-const { basename } = require('path');
-
 // Npm
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
-const gitConfig = require('git-config');
-const ghUsername = require('github-username');
 // Const { srilinka, supportedTypes, supportedCdns } = require('srilinka');
 const { supportedCdns } = require('srilinka');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-
-    this.props = {
-      name: this.options.name || this.pkg.name || basename(process.cwd())
-    };
+    this.props = { name: this.options.name || this.determineAppname() };
 
     this.option('name', {
       type: String,
@@ -52,13 +43,18 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    this.gitc = gitConfig.sync();
-    this.gitc.user = this.gitc.user || {};
-    if (this.gitc.user.email) {
-      return ghUsername(this.gitc.user.email).then(x => {
-        this.ghUsername = x;
-      });
+    const name = this.user.git.name();
+    const email = this.user.git.email();
+    this.gitc = { user: {} };
+    if (name) {
+      this.gitc.user.name = name;
     }
+    if (email) {
+      this.gitc.user.email = email;
+    }
+    return this.user.github.username().then(username => {
+      this.ghUsername = username;
+    });
   }
 
   prompting() {
