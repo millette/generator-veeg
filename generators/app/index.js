@@ -148,7 +148,7 @@ module.exports = class extends Generator {
       this.composeWith('generator-license', {
         name: this.props.author,
         email: this.props.email,
-        website: this.props.website,
+        website: this.props.website || ' ',
         defaultLicense: 'AGPL-3.0'
       });
     });
@@ -156,20 +156,15 @@ module.exports = class extends Generator {
 
   writing() {
     this.log('ghUsername', this.ghUsername);
+    const pkgTpl = this.fs.readJSON(this.templatePath('package.json'));
     const pkg = {
+      ...pkgTpl,
       ...this.pkg,
       name: this.props.name,
-      version: '0.0.0',
       author: {
         name: this.props.author,
         email: this.props.email,
         url: this.props.website
-      },
-      scripts: {
-        lint: 'standard'
-      },
-      devDependencies: {
-        standard: '^11.0.1'
       }
     };
 
@@ -179,11 +174,8 @@ module.exports = class extends Generator {
     this.log('pkg222:', JSON.stringify(pkg));
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     this.fs.copyTpl(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt'),
-      {
-        fe: '<p>fo</p>'
-      }
+      this.templatePath('bs-config.js'),
+      this.destinationPath('bs-config.js')
     );
   }
 

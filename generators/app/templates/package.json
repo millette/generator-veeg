@@ -1,0 +1,11 @@
+{
+  "version": "0.0.0",
+  "scripts": {
+    "lint": "standard",
+    "dev": "standard && browser-sync start --config bs-config.js"
+  },
+  "devDependencies": {
+    "standard": "*",
+    "browser-sync": "*"
+  }
+}
