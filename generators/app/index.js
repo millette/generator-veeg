@@ -7,16 +7,19 @@ const yosay = require('yosay');
 // Const { srilinka, supportedTypes, supportedCdns } = require('srilinka');
 const { supportedCdns } = require('srilinka');
 
+// Self
+const { description } = require('../../package.json');
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-    this.props = { name: this.options.name || this.determineAppname() };
+    this.props = { name: this.arguments[0] || this.determineAppname() };
 
-    this.option('name', {
+    this.desc(description);
+    this.argument('name', {
       type: String,
       description: 'Package name',
-      alias: 'n',
       required: false
     });
 
@@ -66,7 +69,7 @@ module.exports = class extends Generator {
         name: 'name',
         message: 'Package name:',
         default: this.props.name,
-        when: !this.options.name
+        when: !this.arguments[0]
       },
       {
         name: 'author',
@@ -131,7 +134,7 @@ module.exports = class extends Generator {
     return this.prompt(prompts).then(props => {
       this.resources = ['vega', ...props.vegaAddons, 'vega-embed'];
       this.props = {
-        name: this.options.name,
+        name: this.props.name,
         author: this.options.author,
         email: this.options.email,
         website: this.options.website,
@@ -143,7 +146,7 @@ module.exports = class extends Generator {
         name: this.props.author,
         email: this.props.email || ' ',
         website: this.props.website || ' ',
-        defaultLicense: 'AGPL-3.0'
+        defaultLicense: this.pkg.license || 'AGPL-3.0'
       });
     });
   }
