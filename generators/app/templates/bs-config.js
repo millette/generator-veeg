@@ -2,10 +2,11 @@
 
 module.exports = {
   files: [
-    '*.html',
-    'js/*.js',
-    'css/*.css'
+    'src/*.html',
+    'src/js/*.js',
+    'src/css/*.css',
+    'src/data/*.json'
   ],
-  server: true,
+  server: 'src',
   open: false
 }
