@@ -207,6 +207,14 @@ module.exports = class extends Generator {
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     this.fs.copy(this.templatePath('bs-config.js'), this.destinationPath('bs-config.js'));
     this.fs.copy(this.templatePath('main.js'), this.destinationPath('src/js/main.js'));
+    this.fs.copy(
+      this.templatePath('spec.json'),
+      this.destinationPath('src/data/spec.json')
+    );
+    this.fs.copy(
+      this.templatePath('data.json'),
+      this.destinationPath('src/data/data.json')
+    );
 
     return srilinka({ packages: this.resources, cdn: this.props.cdn }).then(output => {
       const blabla = {
@@ -221,7 +229,6 @@ module.exports = class extends Generator {
   }
 
   _html5Boilerplate(bla2) {
-    this.log(JSON.stringify(bla2, null, '  '));
     const h5Index = require.resolve('html5-boilerplate/dist/index.html', module);
     const h5Path = dirname(h5Index);
     const ignore = [
