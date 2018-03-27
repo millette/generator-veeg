@@ -1,0 +1,16 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": { "url": "data/data.json" },
+  "mark": "bar",
+  "encoding": {
+    "y": { "field": "a", "type": "nominal" },
+    "x": {
+      "aggregate": "average",
+      "field": "b",
+      "type": "quantitative",
+      "axis": {
+        "title": "Average of b"
+      }
+    }
+  }
+}

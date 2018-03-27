@@ -1,3 +1,5 @@
+/* global vegaEmbed */
+
 'use strict'
 
-// Tadam!
+vegaEmbed('#viz', '../data/spec.json')
