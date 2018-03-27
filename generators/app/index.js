@@ -8,27 +8,35 @@ const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
 // Const { srilinka, supportedTypes, supportedCdns } = require('srilinka');
-const { supportedCdns } = require('srilinka');
+const { srilinka, supportedCdns } = require('srilinka');
 
 // Self
 const { description } = require('../../package.json');
 
 const likeString = str => String(str || '');
 
-const process = cnt => {
-  const str = cnt
+const process = cnt =>
+  cnt
     .toString('utf-8')
     .replace(
       '</head>',
-      '<link rel="stylesheet" href="booya.css">\n<link rel="stylesheet" href="<%- it %>">\n</head>'
+      `<%- css.join('\\n') %>
+</head>`
     )
-    .replace(/<!-- Google Analytics:[^]*<\/script>/, '')
+    .replace(/<script src="js\/main.js">[^]*<\/script>/, '')
+    .replace('<html class="no-js" lang="">', '<html class="no-js" lang="<%= lang %>">')
+    .replace(
+      '<p>Hello world! This is HTML5 Boilerplate.</p>',
+      `<h1>Démo Vega</h1>
+<p>Site généré par generator-veeg.</p>
+<div id="viz"></div>`
+    )
     .replace(
       '</body>',
-      '<script rel="stylesheet" href="booya.css"></script>\n<script rel="stylesheet" href="<%- it %>"></script>\n</body>'
+      `<%- js.join('\\n') %>
+    <script src="js/main.js"></script>
+    </body>`
     );
-  return str;
-};
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -198,11 +206,26 @@ module.exports = class extends Generator {
     }
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     this.fs.copy(this.templatePath('bs-config.js'), this.destinationPath('bs-config.js'));
+    this.fs.copy(this.templatePath('main.js'), this.destinationPath('src/js/main.js'));
+
+    return srilinka({ packages: this.resources, cdn: this.props.cdn }).then(output => {
+      const blabla = {
+        js: [],
+        css: []
+      };
+      output.forEach(x => x[this.props.cdn].forEach(y => blabla[y.type].push(y.html)));
+      this._html5Boilerplate(blabla);
+    });
+  }
+
+  _html5Boilerplate(bla2) {
+    this.log(JSON.stringify(bla2, null, '  '));
     const h5Index = require.resolve('html5-boilerplate/dist/index.html', module);
     const h5Path = dirname(h5Index);
     const ignore = [
       'index.html',
       'doc/*',
+      'js/main.js',
       'browserconfig.xml',
       'robots.txt',
       'tile.png',
@@ -217,7 +240,9 @@ module.exports = class extends Generator {
       this.destinationPath('tmp/index.html'),
       this.destinationPath('src/index.html'),
       {
-        it: 'booya3.css'
+        lang: 'fr',
+        css: bla2.css,
+        js: bla2.js
       }
     );
     this.fs.delete(this.destinationPath('tmp/index.html'));
