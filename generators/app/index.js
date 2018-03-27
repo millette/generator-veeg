@@ -10,6 +10,8 @@ const { supportedCdns } = require('srilinka');
 // Self
 const { description } = require('../../package.json');
 
+const likeString = str => String(str || '');
+
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
@@ -24,21 +26,21 @@ module.exports = class extends Generator {
     });
 
     this.option('author', {
-      type: String,
+      type: likeString,
       description: "Author's name",
       alias: 'a',
       required: false
     });
 
     this.option('email', {
-      type: String,
+      type: likeString,
       description: "Author's email",
       alias: 'e',
       required: false
     });
 
     this.option('website', {
-      type: String,
+      type: likeString,
       description: "Author's website",
       alias: 'w',
       required: false
@@ -46,15 +48,12 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    const name = this.user.git.name();
-    const email = this.user.git.email();
-    this.gitc = { user: {} };
-    if (name) {
-      this.gitc.user.name = name;
-    }
-    if (email) {
-      this.gitc.user.email = email;
-    }
+    this.gitc = {
+      user: {
+        name: this.user.git.name(),
+        email: this.user.git.email()
+      }
+    };
     return this.user.github.username().then(username => {
       this.ghUsername = username;
     });
@@ -63,6 +62,14 @@ module.exports = class extends Generator {
   prompting() {
     this.log(yosay(`Welcome to the wicked ${chalk.red('generator-veeg')} generator!`));
     const choices = ['vega-lite', 'vega-tooltip'];
+
+    /*
+    This.log(`#1 this.options.author: ${this.options.author}  ${typeof this.options.author}`)
+    this.log(`#2 this.gitc.user.name: ${this.gitc.user.name} ${typeof this.gitc.user.name}`)
+    this.log(`#3 this.options.email: ${this.options.email}  ${typeof this.options.email}`)
+    this.log(`#4 this.gitc.user.email: ${this.gitc.user.email} ${typeof this.gitc.user.email}`)
+    this.log(`#5 this.options.website: ${this.options.website}  ${typeof this.options.website}`)
+    */
 
     const prompts = [
       {
@@ -78,16 +85,16 @@ module.exports = class extends Generator {
           this.options.author ||
           (this.pkg.author && this.pkg.author.name) ||
           this.gitc.user.name,
-        when: !this.options.author
+        when: this.options.author === undefined
       },
       {
         name: 'email',
-        message: "What's your email:",
+        message: "What's yourrr email:",
         default:
           this.options.email ||
           (this.pkg.author && this.pkg.author.email) ||
           this.gitc.user.email,
-        when: !this.options.email
+        when: this.options.email === undefined
       },
       {
         name: 'website',
@@ -96,7 +103,7 @@ module.exports = class extends Generator {
           this.options.website ||
           (this.pkg.author && this.pkg.author.url) ||
           this.gitc.user.url,
-        when: !this.options.website
+        when: this.options.website === undefined
       },
       {
         type: 'checkbox',
@@ -144,8 +151,8 @@ module.exports = class extends Generator {
 
       this.composeWith('generator-license', {
         name: this.props.author,
-        email: this.props.email || ' ',
-        website: this.props.website || ' ',
+        email: this.props.email,
+        website: this.props.website,
         defaultLicense: this.pkg.license || 'AGPL-3.0'
       });
     });
@@ -156,13 +163,21 @@ module.exports = class extends Generator {
     const pkg = {
       ...pkgTpl,
       ...this.pkg,
-      name: this.props.name,
-      author: {
-        name: this.props.author,
-        email: this.props.email,
-        url: this.props.website
-      }
+      name: this.props.name
     };
+
+    if (this.props.author || this.props.email || this.props.website) {
+      pkg.author = {};
+      if (this.props.author) {
+        pkg.author.name = this.props.author;
+      }
+      if (this.props.email) {
+        pkg.author.email = this.props.email;
+      }
+      if (this.props.website) {
+        pkg.author.url = this.props.website;
+      }
+    }
 
     if (this.ghUsername && this.props.name) {
       pkg.repository = [this.ghUsername, this.props.name].join('/');
