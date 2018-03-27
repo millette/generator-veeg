@@ -213,7 +213,9 @@ module.exports = class extends Generator {
         js: [],
         css: []
       };
-      output.forEach(x => x[this.props.cdn].forEach(y => blabla[y.type].push(y.html)));
+      output.forEach(x =>
+        x[this.props.cdn].forEach(y => y.type && blabla[y.type].push(y.html))
+      );
       this._html5Boilerplate(blabla);
     });
   }
