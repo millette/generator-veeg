@@ -7,5 +7,8 @@
   "devDependencies": {
     "standard": "*",
     "browser-sync": "*"
+  },
+  "standard": {
+    "ignore": ["src/js/plugins.js"]
   }
 }
