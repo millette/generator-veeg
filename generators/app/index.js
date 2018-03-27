@@ -1,5 +1,8 @@
 'use strict';
 
+// Core
+const { dirname } = require('path');
+
 // Npm
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
@@ -11,6 +14,21 @@ const { supportedCdns } = require('srilinka');
 const { description } = require('../../package.json');
 
 const likeString = str => String(str || '');
+
+const process = cnt => {
+  const str = cnt
+    .toString('utf-8')
+    .replace(
+      '</head>',
+      '<link rel="stylesheet" href="booya.css">\n<link rel="stylesheet" href="<%- it %>">\n</head>'
+    )
+    .replace(/<!-- Google Analytics:[^]*<\/script>/, '')
+    .replace(
+      '</body>',
+      '<script rel="stylesheet" href="booya.css"></script>\n<script rel="stylesheet" href="<%- it %>"></script>\n</body>'
+    );
+  return str;
+};
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -60,16 +78,12 @@ module.exports = class extends Generator {
   }
 
   prompting() {
-    this.log(yosay(`Welcome to the wicked ${chalk.red('generator-veeg')} generator!`));
+    this.log(
+      yosay(
+        `Welcome to the wicked ${chalk.red('generator-veeg')} generator!\n${description}`
+      )
+    );
     const choices = ['vega-lite', 'vega-tooltip'];
-
-    /*
-    This.log(`#1 this.options.author: ${this.options.author}  ${typeof this.options.author}`)
-    this.log(`#2 this.gitc.user.name: ${this.gitc.user.name} ${typeof this.gitc.user.name}`)
-    this.log(`#3 this.options.email: ${this.options.email}  ${typeof this.options.email}`)
-    this.log(`#4 this.gitc.user.email: ${this.gitc.user.email} ${typeof this.gitc.user.email}`)
-    this.log(`#5 this.options.website: ${this.options.website}  ${typeof this.options.website}`)
-    */
 
     const prompts = [
       {
@@ -184,6 +198,29 @@ module.exports = class extends Generator {
     }
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
     this.fs.copy(this.templatePath('bs-config.js'), this.destinationPath('bs-config.js'));
+    const h5Index = require.resolve('html5-boilerplate/dist/index.html', module);
+    const h5Path = dirname(h5Index);
+    const ignore = [
+      'index.html',
+      'doc/*',
+      'browserconfig.xml',
+      'robots.txt',
+      'tile.png',
+      'tile-wide.png',
+      '404.html'
+    ].map(x => [h5Path, x].join('/'));
+    this.fs.copy(h5Path + '/**', this.destinationPath('src'), {
+      globOptions: { ignore }
+    });
+    this.fs.copy(h5Index, this.destinationPath('tmp/index.html'), { process });
+    this.fs.copyTpl(
+      this.destinationPath('tmp/index.html'),
+      this.destinationPath('src/index.html'),
+      {
+        it: 'booya3.css'
+      }
+    );
+    this.fs.delete(this.destinationPath('tmp/index.html'));
   }
 
   install() {
