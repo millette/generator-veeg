@@ -1,5 +1,7 @@
-# generator-veeg [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
-> Vega and vega-lite boilerplate generator.
+# generator-veeg
+[![Build Status](https://travis-ci.org/millette/generator-veeg.svg?branch=master)](https://travis-ci.org/millette/generator-veeg)
+[![Coverage Status](https://coveralls.io/repos/github/millette/generator-veeg/badge.svg?branch=master)](https://coveralls.io/github/millette/generator-veeg?branch=master)
+[![Dependency Status](https://gemnasium.com/badges/github.com/millette/generator-veeg.svg)](https://gemnasium.com/github.com/millette/generator-veeg)
 
 ## Installation
 
