@@ -110,7 +110,7 @@ module.exports = class extends Generator {
       },
       {
         name: 'email',
-        message: "What's yourrr email:",
+        message: "What's your email:",
         default:
           this.options.email ||
           (this.pkg.author && this.pkg.author.email) ||
@@ -206,7 +206,26 @@ module.exports = class extends Generator {
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
 
     this.fs.copy(this.templatePath('**'), this.destinationPath(), {
-      globOptions: { ignore: this.templatePath('package.json') }
+      globOptions: {
+        ignore: [
+          this.templatePath('package.json'),
+          this.templatePath('readme.md'),
+          this.templatePath('src/js/main.js')
+        ]
+      }
+    });
+
+    this.fs.copyTpl(
+      this.templatePath('src/js/main.js'),
+      this.destinationPath('src/js/main.js'),
+      {
+        vegaTooltip: true,
+        vegaLite: true
+      }
+    );
+
+    this.fs.copyTpl(this.templatePath('readme.md'), this.destinationPath('readme.md'), {
+      cmd: this.props.preferYarn ? 'yarn' : 'npm run'
     });
 
     return srilinka({ packages: this.resources, cdn: this.props.cdn }).then(output => {

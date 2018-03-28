@@ -1,2 +1,2 @@
 coverage
-**/templates
+generators/app/templates/src/js/main.js
