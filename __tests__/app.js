@@ -9,6 +9,6 @@ describe('generator-veeg:app', () => {
   });
 
   it('creates files', () => {
-    assert.file(['package.json', 'bs-config.json']);
+    assert.file(['bs-config.json']);
   });
 });

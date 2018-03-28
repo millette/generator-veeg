@@ -87,9 +87,12 @@ module.exports = class extends Generator {
       return;
     }
 
-    return this.user.github.username().then(username => {
-      this.ghUsername = username;
-    });
+    return this.user.github
+      .username()
+      .then(username => {
+        this.ghUsername = username;
+      })
+      .catch(this.error);
   }
 
   prompting() {
