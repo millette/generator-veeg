@@ -7,7 +7,6 @@ const { dirname } = require('path');
 const Generator = require('yeoman-generator');
 const chalk = require('chalk');
 const yosay = require('yosay');
-// Const { srilinka, supportedTypes, supportedCdns } = require('srilinka');
 const { srilinka, supportedCdns } = require('srilinka');
 
 // Self
@@ -205,19 +204,10 @@ module.exports = class extends Generator {
       pkg.repository = [this.ghUsername, this.props.name].join('/');
     }
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
-    this.fs.copy(
-      this.templatePath('bs-config.json'),
-      this.destinationPath('bs-config.json')
-    );
-    this.fs.copy(this.templatePath('main.js'), this.destinationPath('src/js/main.js'));
-    this.fs.copy(
-      this.templatePath('spec.json'),
-      this.destinationPath('src/data/spec.json')
-    );
-    this.fs.copy(
-      this.templatePath('data.json'),
-      this.destinationPath('src/data/data.json')
-    );
+
+    this.fs.copy(this.templatePath('**'), this.destinationPath(), {
+      globOptions: { ignore: this.templatePath('package.json') }
+    });
 
     return srilinka({ packages: this.resources, cdn: this.props.cdn }).then(output => {
       const assets = {
