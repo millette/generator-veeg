@@ -73,12 +73,20 @@ module.exports = class extends Generator {
   }
 
   initializing() {
-    this.gitc = {
-      user: {
-        name: this.user.git.name(),
-        email: this.user.git.email()
-      }
-    };
+    this.gitc = { user: {} };
+
+    const name = this.user.git.name();
+    const email = this.user.git.email();
+
+    if (name) {
+      this.gitc.user.name = name;
+    }
+    if (email) {
+      this.gitc.user.email = email;
+    } else {
+      return;
+    }
+
     return this.user.github.username().then(username => {
       this.ghUsername = username;
     });
