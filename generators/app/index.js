@@ -205,7 +205,10 @@ module.exports = class extends Generator {
       pkg.repository = [this.ghUsername, this.props.name].join('/');
     }
     this.fs.writeJSON(this.destinationPath('package.json'), pkg);
-    this.fs.copy(this.templatePath('bs-config.js'), this.destinationPath('bs-config.js'));
+    this.fs.copy(
+      this.templatePath('bs-config.json'),
+      this.destinationPath('bs-config.json')
+    );
     this.fs.copy(this.templatePath('main.js'), this.destinationPath('src/js/main.js'));
     this.fs.copy(
       this.templatePath('spec.json'),
@@ -217,18 +220,19 @@ module.exports = class extends Generator {
     );
 
     return srilinka({ packages: this.resources, cdn: this.props.cdn }).then(output => {
-      const blabla = {
+      const assets = {
         js: [],
         css: []
       };
       output.forEach(x =>
-        x[this.props.cdn].forEach(y => y.type && blabla[y.type].push(y.html))
+        x[this.props.cdn].forEach(y => y.type && assets[y.type].push(y.html))
       );
-      this._html5Boilerplate(blabla);
+      this._html5Boilerplate(assets);
     });
   }
 
-  _html5Boilerplate(bla2) {
+  _html5Boilerplate({ css, js }) {
+    const lang = 'fr';
     const h5Index = require.resolve('html5-boilerplate/dist/index.html', module);
     const h5Path = dirname(h5Index);
     const ignore = [
@@ -248,11 +252,7 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.destinationPath('tmp/index.html'),
       this.destinationPath('src/index.html'),
-      {
-        lang: 'fr',
-        css: bla2.css,
-        js: bla2.js
-      }
+      { lang, css, js }
     );
     this.fs.delete(this.destinationPath('tmp/index.html'));
   }
