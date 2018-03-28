@@ -92,7 +92,10 @@ module.exports = class extends Generator {
       .then(username => {
         this.ghUsername = username;
       })
-      .catch(this.error);
+      .catch(err => {
+        this.error(err);
+        return Promise.resolve();
+      });
   }
 
   prompting() {
