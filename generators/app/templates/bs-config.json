@@ -1,0 +1,5 @@
+{
+  "files": ["src/*.html", "src/js/*.js", "src/css/*.css", "src/data/*.json"],
+  "server": "src",
+  "open": false
+}

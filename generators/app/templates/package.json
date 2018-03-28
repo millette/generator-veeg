@@ -2,7 +2,7 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "standard",
-    "dev": "standard && browser-sync start --config bs-config.js"
+    "dev": "standard && browser-sync start --config bs-config.json"
   },
   "devDependencies": {
     "standard": "*",
