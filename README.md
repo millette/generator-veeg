@@ -2,6 +2,9 @@
 [![Build Status](https://travis-ci.org/millette/generator-veeg.svg?branch=master)](https://travis-ci.org/millette/generator-veeg)
 [![Coverage Status](https://coveralls.io/repos/github/millette/generator-veeg/badge.svg?branch=master)](https://coveralls.io/github/millette/generator-veeg?branch=master)
 [![Dependency Status](https://gemnasium.com/badges/github.com/millette/generator-veeg.svg)](https://gemnasium.com/github.com/millette/generator-veeg)
+> [Vega][] and [Vega-Lite][] boilerplate generator.
+
+
 
 ## Installation
 
@@ -38,3 +41,5 @@ GPL-3.0 © [Robin Millette](http://robin.millette.info/)
 [daviddm-url]: https://david-dm.org/millette/generator-veeg
 [coveralls-image]: https://coveralls.io/repos/millette/generator-veeg/badge.svg
 [coveralls-url]: https://coveralls.io/r/millette/generator-veeg
+[Vega-Lite]: <https://vega.github.io/vega-lite/>
+[Vega]: <https://vega.github.io/vega/>

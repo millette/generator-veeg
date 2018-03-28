@@ -41,7 +41,7 @@ Launch development web server with [browser-sync][]:
 ```
 Your site should be available at <http://localhost:3000/>.
 
-Convert vega-lite spec to vega with [Vega-lite][]:
+Convert Vega-Lite spec to Vega with [Vega-Lite][]:
 ```
 <%- cmd %> vl2vg
 ```
@@ -49,5 +49,5 @@ Convert vega-lite spec to vega with [Vega-lite][]:
 [html5-boilerplate]: <https://github.com/h5bp/html5-boilerplate>
 [standardjs]: <https://standardjs.com/>
 [browser-sync]: <https://browsersync.io/>
-[Vega-lite]: <https://vega.github.io/vega-lite/>
+[Vega-Lite]: <https://vega.github.io/vega-lite/>
 [Vega]: <https://vega.github.io/vega/>
