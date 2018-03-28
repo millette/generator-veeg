@@ -93,7 +93,7 @@ module.exports = class extends Generator {
         this.ghUsername = username;
       })
       .catch(err => {
-        this.error(err);
+        this.log(err);
         return Promise.resolve();
       });
   }
