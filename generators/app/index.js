@@ -249,7 +249,6 @@ module.exports = class extends Generator {
       'doc/*',
       'js/main.js',
       'browserconfig.xml',
-      'robots.txt',
       'tile.png',
       'tile-wide.png',
       '404.html'
