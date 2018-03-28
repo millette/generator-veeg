@@ -215,13 +215,13 @@ module.exports = class extends Generator {
       }
     });
 
+    const vegaTooltip = this.props.vegaAddons.indexOf('vega-tooltip') !== -1;
+    const vegaLite = this.props.vegaAddons.indexOf('vega-lite') !== -1;
+
     this.fs.copyTpl(
       this.templatePath('src/js/main.js'),
       this.destinationPath('src/js/main.js'),
-      {
-        vegaTooltip: true,
-        vegaLite: true
-      }
+      { vegaTooltip, vegaLite }
     );
 
     this.fs.copyTpl(this.templatePath('readme.md'), this.destinationPath('readme.md'), {

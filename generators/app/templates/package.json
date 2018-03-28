@@ -1,8 +1,14 @@
 {
   "version": "0.0.0",
   "scripts": {
+    "vl2vg": "vl2vg --pretty src/data/spec-lite.json > src/data/spec.json",
+    "postinstall":
+      "standard --fix && vl2vg --pretty src/data/spec-lite.json > src/data/spec.json",
     "lint": "standard",
     "dev": "standard && browser-sync start --config bs-config.json"
+  },
+  "dependencies": {
+    "vega-lite": "*"
   },
   "devDependencies": {
     "standard": "*",

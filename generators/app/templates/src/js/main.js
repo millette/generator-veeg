@@ -1,15 +1,14 @@
-/* global vegaEmbed <%- vegaTooltip ? ', vegaTooltip' : '' %>*/
+/* global vegaEmbed <%- vegaTooltip ? ', vegaTooltip' : '' %> */
 
 'use strict'
 
-vegaEmbed('#viz', '../data/spec.json', { actions: false })
+vegaEmbed('#viz', '../data/<%- vegaLite ? 'spec-lite.json' : 'spec.json' %>', { actions: false })
   .then(function(result) {
-    // result: { view, spec }
     <% if (vegaTooltip) { %>
       <% if (vegaLite) { %>
-        vegaTooltip.vegaLite(view, spec[, options])
+        vegaTooltip.vegaLite(result.view, result.spec) // [, options]
       <% } else { %>
-        vegaTooltip.vega(view[, options])
+        vegaTooltip.vega(result.view) // [, options]
       <% } %>
     <% } %>
   })
