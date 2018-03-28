@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - v9
   - v8
-after_script: cat ./coverage/lcov.info | coveralls
+after_script: coveralls < coverage/lcov.info
