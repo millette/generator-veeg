@@ -1,6 +1,6 @@
 {
   "name": "generator-veeg",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Vega and Vega-Lite boilerplate generator.",
   "homepage": "https://github.com/millette/generator-veeg",
   "engines": {
