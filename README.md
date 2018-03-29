@@ -1,13 +1,13 @@
 # generator-veeg
-[![Version](https://badge.fury.io/js/generator-veeg.svg)](https://npmjs.org/package/generator-veeg)
+[![Version](https://badge.fury.io/js/generator-veeg.svg)][generator-veeg]
 [![Build Status](https://travis-ci.org/millette/generator-veeg.svg?branch=master)](https://travis-ci.org/millette/generator-veeg)
 [![Coverage Status](https://coveralls.io/repos/github/millette/generator-veeg/badge.svg?branch=master)](https://coveralls.io/github/millette/generator-veeg?branch=master)
-[![Dependency Status](https://gemnasium.com/badges/github.com/millette/generator-veeg.svg)](https://gemnasium.com/github.com/millette/generator-veeg)
+[![Dependency Status][daviddm-image]][daviddm-url]
 > [Vega][] and [Vega-Lite][] boilerplate generator for [Yeoman][].
 
 ## Installation
 
-First, install [Yeoman][] and generator-veeg using [npm][] (we assume you have pre-installed [node.js][]).
+First, install [Yeoman][] and [generator-veeg][] using [npm][] (we assume you have pre-installed [node.js][]).
 
 ```sh
 npm install -g yo
@@ -44,3 +44,6 @@ GPL-3.0 © [Robin Millette][]
 [Vega]: <https://vega.github.io/vega/>
 [Yeoman]: <http://yeoman.io/>
 [Robin Millette]: <http://robin.millette.info/>
+[generator-veeg]: <https://npmjs.org/package/generator-veeg>
+[daviddm-image]: https://david-dm.org/millette/generator-veeg.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/millette/generator-veeg
