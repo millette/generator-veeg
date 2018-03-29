@@ -1524,7 +1524,7 @@ generate-object-property@^1.1.0:
 
 generator-license@millette/generator-license#undefined-or-null:
   version "5.2.0"
-  resolved "https://codeload.github.com/millette/generator-license/tar.gz/d1c8c3d04866015049dac5909cda082e86d35456"
+  resolved "https://codeload.github.com/millette/generator-license/tar.gz/d10cedfb2849213b44a2b331fc9386a68466a262"
   dependencies:
     yeoman-generator "^2.0.1"
 
