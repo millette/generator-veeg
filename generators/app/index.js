@@ -42,7 +42,7 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.pkg = this.fs.readJSON(this.destinationPath('package.json'), {});
-    this.props = { name: this.arguments[0] || this.determineAppname() };
+    // Bla this.props = { name: this.arguments[0] || this.determineAppname() };
 
     this.desc(description);
     this.argument('name', {
@@ -76,22 +76,22 @@ module.exports = class extends Generator {
   initializing() {
     this.gitc = { user: {} };
 
-    const name = this.user.git.name();
+    const username = this.user.git.name();
     const email = this.user.git.email();
 
-    if (name) {
-      this.gitc.user.name = name;
+    if (username) {
+      this.gitc.user.name = username;
     }
     if (email) {
       this.gitc.user.email = email;
     } else {
-      return;
+      return Promise.resolve();
     }
 
     return this.user.github
       .username()
-      .then(username => {
-        this.ghUsername = username;
+      .then(ghUsername => {
+        this.ghUsername = ghUsername;
       })
       .catch(err => {
         this.log(err);
@@ -111,7 +111,7 @@ module.exports = class extends Generator {
       {
         name: 'name',
         message: 'Package name:',
-        default: this.props.name,
+        default: this.arguments[0] || this.determineAppname(),
         when: !this.arguments[0]
       },
       {
@@ -176,13 +176,13 @@ module.exports = class extends Generator {
 
     return this.prompt(prompts).then(props => {
       this.resources = ['vega', ...props.vegaAddons, 'vega-embed'];
+
       this.props = {
-        name: this.props.name,
+        name: this.options.name,
         author: this.options.author,
         email: this.options.email,
         website: this.options.website,
-        ...props,
-        ...this.props
+        ...props
       };
 
       this.composeWith('generator-license', {
@@ -218,7 +218,6 @@ module.exports = class extends Generator {
     if (this.ghUsername && this.props.name) {
       pkg.repository = [this.ghUsername, this.props.name].join('/');
     }
-    this.fs.writeJSON(this.destinationPath('package.json'), pkg);
 
     this.fs.copy(this.templatePath('**'), this.destinationPath(), {
       globOptions: {
@@ -228,6 +227,11 @@ module.exports = class extends Generator {
           this.templatePath('src/js/main.js')
         ]
       }
+    });
+
+    this.fs.writeJSON(this.destinationPath('package.json'), {
+      ...pkg,
+      name: this.props.name
     });
 
     const vegaTooltip = this.props.vegaAddons.indexOf('vega-tooltip') !== -1;
