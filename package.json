@@ -23,7 +23,6 @@
     "husky": "^0.14.3",
     "jest": "^22.0.6",
     "lint-staged": "7.0.4",
-    "nsp": "^3.2.1",
     "prettier": "^1.7.0",
     "yeoman-assert": "^3.1.0",
     "yeoman-test": "^1.7.0"
@@ -40,7 +39,6 @@
     "testEnvironment": "node"
   },
   "scripts": {
-    "prepublish": "nsp check",
     "pretest": "eslint .",
     "precommit": "lint-staged",
     "test": "jest --coverage"
