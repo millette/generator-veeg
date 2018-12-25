@@ -1,5 +1,5 @@
 language: node_js
 node_js:
-  - v9
-  - v8
+  - '10'
+  - '8'
 after_script: coveralls < coverage/lcov.info
