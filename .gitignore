@@ -1,6 +1,5 @@
 node_modules
 coverage
-package-lock.json
 .env
 .dat
 yarn-error.log
